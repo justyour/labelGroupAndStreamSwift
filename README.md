@@ -213,6 +213,51 @@ let size = norStr.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: ma
 return size.width
 }
 ```
+
+###### 使用方法
+```
+let titleArr = ["关系","花","节日","枝数"]
+let contentArr = [["恋人","朋友朋友朋友朋友朋友朋友","亲人恩师恩师","恩师恩师","病人","其他","恋人","朋友朋友朋友朋友朋友朋友","亲人恩师恩师","恩师恩师","病人","其他"],["玫","百合","康乃馨","郁金香","扶郎","马蹄莲"],["情人节","母亲节","圣诞节","元旦节","春节","恋人","朋友朋友朋友朋友朋友朋友","亲人恩师恩师","恩师恩师","病人","其他"],["9枝","100000000枝","11枝","21枝","33枝","99枝","99999999枝以上","恋人","朋友朋友朋友朋友朋友朋友","亲人恩师恩师","恩师恩师","病人","其他","恋人","朋友朋友朋友朋友朋友朋友","亲人恩师恩师","恩师恩师","病人","其他","恋人","朋友朋友朋友朋友朋友朋友","亲人恩师恩师","恩师恩师","病人","其他"]]
+
+labGroup = CBGroupAndStreamView.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+labGroup.titleTextFont = .systemFont(ofSize: 14)
+labGroup.titleLabHeight = 30;
+labGroup.titleTextColor = .red
+labGroup.isSingle = true
+//        labGroup.defaultSelIndex = 1
+//        labGroup.defaultSelSingleIndeArr = [1,1,0,0]
+//使用该参数则默认为多选 isSingle 无效 defaultSelSingleIndeArr 设置无效
+labGroup.defaultSelIndexArr = [[0,5,8,3,2],1,0,3]
+//分别设置每个组的单选与多选
+labGroup.defaultGroupSingleArr = [0,1,1,0]
+labGroup.setDataSource(contetnArr: contentArr, titleArr: titleArr)
+labGroup.delegate = self
+self.view.addSubview(labGroup)
+
+//闭包接收值
+labGroup.confirmReturnValueClosure = {
+(selArr,groupIdArr) in
+//            print(selArr)
+}
+labGroup.currentSelValueClosure = {
+(valueStr,index,groupId) in
+//            print("\(valueStr) index = \(index), groupid = \(groupId)")
+}
+
+//代理
+extension ViewController : CBGroupAndStreamViewDelegate{
+
+func currentSelValueWithDelegate(valueStr: String, index: Int, groupId: Int) {
+print("\(valueStr) index = \(index), groupid = \(groupId)")
+}
+
+func confimrReturnAllSelValueWithDelegate(selArr: Array<Any>, groupArr: Array<Any>) {
+print(selArr)
+}
+}
+
+```
+
 ###### [swift版简书](https://www.jianshu.com/p/c7de7f8de3ba)
 ###### [OC版简书](https://www.jianshu.com/p/05813eea7995)
 
