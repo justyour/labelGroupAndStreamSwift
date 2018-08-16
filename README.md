@@ -1,7 +1,7 @@
 # labelGroupAndStreamSwift
 使用按钮实现单选，多选，分组，标签流功能
 ![图片](https://upload-images.jianshu.io/upload_images/3601465-dbb06fcc73fcb25c.gif?imageMogr2/auto-orient/strip)
-##### 基本属性
+###### 基本属性
 ```
 //MARK:----publish
 /// 组高度
