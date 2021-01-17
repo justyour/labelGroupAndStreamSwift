@@ -134,7 +134,7 @@ class CBGroupAndStreamView: UIView {
         frameRect = .zero
         dataSourceArr.removeAll()
         dataSourceArr.append(contentsOf: tempContentArr)
-//        print(dataSourceArr)
+        //        print(dataSourceArr)
 
         for (index,title) in titleArr.enumerated() {
             saveSelButValueArr.append("")
@@ -175,9 +175,22 @@ class CBGroupAndStreamView: UIView {
             sender.layer.cornerRadius = CGFloat(content_radius)
             sender.addTarget(self, action: #selector(senderEvent), for: .touchUpInside)
             //标签流
-            let but_width = calcuateLabSizeWidth(str: value as! String, font:content_titleFont, maxHeight: CGFloat(content_height)) + 20
+            var but_width = calcuateLabSizeWidth(str: value as! String, font:content_titleFont, maxHeight: CGFloat(content_height)) + 20
+            var but_height = content_height
             //计算每个button的 X
             margin_x = CGFloat(alineButWidth) + CGFloat(content_x)
+
+
+            if but_width > UIScreen.main.bounds.size.width - CGFloat(2 * content_x) {
+
+                sender.titleLabel?.numberOfLines = 0
+                sender.titleEdgeInsets = .init(top: 0, left: 10, bottom: 0, right: 10)
+                but_width = UIScreen.main.bounds.size.width - CGFloat(2 * content_x)
+                but_height = Int(self.calcuateLabSizeHeight(str: value as! String, font: content_titleFont, maxWidth: but_width))
+
+            }else{
+                but_height = content_height
+            }
             //计算一行的宽度
             alineButWidth = CGFloat(content_x) + but_width + CGFloat(alineButWidth)
             //判断是否需要换行
@@ -186,8 +199,8 @@ class CBGroupAndStreamView: UIView {
                 alineButWidth = margin_x + but_width
                 content_totalHeight = current_rect.size.height + current_rect.origin.y + CGFloat(content_x)
             }
-//            print("margin_x = \(margin_x)")
-            sender.frame = CGRect(x: margin_x, y: content_totalHeight, width: but_width, height: CGFloat(content_height))
+            //            print("margin_x = \(margin_x)")
+            sender.frame = CGRect(x: margin_x, y: content_totalHeight, width: but_width, height: CGFloat(but_height))
             //临时保存frame，以进行下一次坐标计算
             current_rect = sender.frame
             if isDefaultChoice{
@@ -195,7 +208,7 @@ class CBGroupAndStreamView: UIView {
                 if defaultSelIndexArr.isEmpty{//单选
                     setDefaultSingleSelect(index: index, groupId: groupId, value: value as! String, sender: sender, content: content)
                 }else{//多选
-                  let arr =  setDefaultMultipleSelect(index: index, groupId: groupId, value: value as! String, sender: sender, content: content)
+                    let arr =  setDefaultMultipleSelect(index: index, groupId: groupId, value: value as! String, sender: sender, content: content)
                     tempSaveSelIndexArr.append(contentsOf: arr)
                 }
             }
@@ -256,7 +269,7 @@ class CBGroupAndStreamView: UIView {
     }
 
     @objc private func senderEvent(sender : UIButton){
-//        print("----\(sender/.tag)")
+        //        print("----\(sender/.tag)")
         sender.isSelected = !sender.isSelected
         if defaultGroupSingleArr.isEmpty{
             //统一设置单选或多选
@@ -356,6 +369,14 @@ class CBGroupAndStreamView: UIView {
         let norStr = NSString(string: str)
         let size = norStr.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: maxHeight), options: .usesLineFragmentOrigin, attributes: attributes as [NSAttributedStringKey : Any], context: nil)
         return size.width
+    }
+
+    //MARK:---计算文字高度
+    private func calcuateLabSizeHeight(str : String, font : UIFont, maxWidth : CGFloat) -> CGFloat{
+        let attributes = [kCTFontAttributeName: font]
+        let norStr = NSString(string: str)
+        let size = norStr.boundingRect(with: CGSize(width: maxWidth, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: attributes as [NSAttributedStringKey : Any], context: nil)
+        return size.height + 15
     }
 
 }
