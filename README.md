@@ -32,9 +32,9 @@ public var content_radius : Int = 8
 public var isSingle : Bool = true
 /// 是否设置默认选中 默认 true 默认选中
 public var isDefaultChoice : Bool = true
-/// isDefaultChoice 为true时 改属性有效，默认为 0
+/// isDefaultChoice 为true时 该属性有效，默认为 0
 public var defaultSelIndex : Int = 0
-/// isDefaultChoice 为true时 改属性有效 defaultSelIndex 属性无效，为每各组设置单选选项
+/// isDefaultChoice 为true时 该属性有效 defaultSelIndex 属性无效，为每各组设置单选选项
 public var defaultSelSingleIndeArr : Array = Array<Any>()
 /// 为每个组设置单选或多选，设置该属性时 isSingle 参数无效, 0 = 多选， 1 = 单选
 public var defaultGroupSingleArr = Array<Int>(){
